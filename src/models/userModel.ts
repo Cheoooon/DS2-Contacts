@@ -1,4 +1,4 @@
-import db from '../db/db.js';
+import db from '../db/db.ts';
 
 export interface User {
   id?: number;

@@ -1,5 +1,5 @@
-import { Request, Response } from 'express';
-import { createUser, findUserByUsername } from '../models/userModel.js';
+import type { Request, Response } from 'express';
+import { createUser, findUserByUsername } from '../models/userModel.ts';
 
 export const register = (req: Request, res: Response) => {
   const { username, password } = req.body;

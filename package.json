@@ -2,10 +2,10 @@
   "name": "DS2-test4",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "start": "node index.ts",
-    "dev": "node --watch index.ts"
+    "start": "node --experimental-strip-types index.ts",
+    "dev": "node --experimental-strip-types --watch index.ts"
   },
   "keywords": [],
   "author": "",

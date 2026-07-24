@@ -37,27 +37,31 @@
             flagDiv.innerHTML = '<img src="https://flagcdn.com/w40/un.png" class="w-8 h-6">';
             return;
           }
-          try {
-            // Try to parse as a complete number first
-            let phoneNumber = libphonenumber.parsePhoneNumberFromString(val);
-            let countryCode = phoneNumber && phoneNumber.country ? phoneNumber.country.toLowerCase() : null;
-            
-            // If not found, try to guess from calling code
-            if (!countryCode && val.startsWith('+')) {
-              const callingCode = val.substring(1).replace(/\D/g, '');
-              // Get all possible countries for this calling code
-              const countries = libphonenumber.getCountriesForCallingCode(callingCode);
-              if (countries && countries.length > 0) {
-                countryCode = countries[0].toLowerCase();
-              }
-            }
+          
+          let countryCode = null;
+          
+          // Simple mapping for immediate partial code feedback
+          if (val.startsWith('+')) {
+            const code = val.substring(1).replace(/\D/g, '');
+            const callingCodes = {
+              '1': 'us', '44': 'gb', '34': 'es', '52': 'mx', '57': 'co', '56': 'cl', '54': 'ar'
+            };
+            countryCode = callingCodes[code] || null;
+          }
 
-            if (countryCode) {
-              flagDiv.innerHTML = `<img src="https://flagcdn.com/w40/${countryCode}.png" class="w-8 h-6">`;
-            } else {
-              flagDiv.innerHTML = '<img src="https://flagcdn.com/w40/un.png" class="w-8 h-6">';
-            }
-          } catch (e) {
+          // Try parsing for full number if not found
+          if (!countryCode) {
+            try {
+              const phoneNumber = libphonenumber.parsePhoneNumberFromString(val);
+              if (phoneNumber && phoneNumber.country) {
+                countryCode = phoneNumber.country.toLowerCase();
+              }
+            } catch (e) {}
+          }
+
+          if (countryCode) {
+            flagDiv.innerHTML = `<img src="https://flagcdn.com/w40/${countryCode}.png" class="w-8 h-6">`;
+          } else {
             flagDiv.innerHTML = '<img src="https://flagcdn.com/w40/un.png" class="w-8 h-6">';
           }
         }

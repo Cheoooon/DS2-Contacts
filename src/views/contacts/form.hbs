@@ -38,10 +38,22 @@
             return;
           }
           try {
-            const phoneNumber = libphonenumber.parsePhoneNumberFromString(val);
-            if (phoneNumber && phoneNumber.country) {
-              const countryCode = phoneNumber.country.toLowerCase();
-              flagDiv.innerHTML = `<img src="https://flagcdn.com/w40/${countryCode}.png" alt="${phoneNumber.country}" class="w-8 h-6">`;
+            // Try to parse as a complete number first
+            let phoneNumber = libphonenumber.parsePhoneNumberFromString(val);
+            let countryCode = phoneNumber && phoneNumber.country ? phoneNumber.country.toLowerCase() : null;
+            
+            // If not found, try to guess from calling code
+            if (!countryCode && val.startsWith('+')) {
+              const callingCode = val.substring(1).replace(/\D/g, '');
+              // Get all possible countries for this calling code
+              const countries = libphonenumber.getCountriesForCallingCode(callingCode);
+              if (countries && countries.length > 0) {
+                countryCode = countries[0].toLowerCase();
+              }
+            }
+
+            if (countryCode) {
+              flagDiv.innerHTML = `<img src="https://flagcdn.com/w40/${countryCode}.png" class="w-8 h-6">`;
             } else {
               flagDiv.innerHTML = '<img src="https://flagcdn.com/w40/un.png" class="w-8 h-6">';
             }
@@ -51,6 +63,7 @@
         }
         // Run on load in case of edit
         document.addEventListener('DOMContentLoaded', () => showFlag(document.getElementById('phone').value));
+      </script>
       <button type="submit" class="bg-indigo-600 text-white p-2 w-full rounded font-bold">Save</button>
     </form>
     {{#if error}}<p class="text-red-500 mt-2">{{error}}</p>{{/if}}

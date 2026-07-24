@@ -1,4 +1,6 @@
 import type { Request, Response } from 'express';
+import { isValidPhoneNumber } from 'libphonenumber-js';
+
 import { z } from 'zod';
 import { createContact, getContactsByUserId, getContactById, updateContact, deleteContact } from '../models/contactModel.ts';
 import { findUserById } from '../models/userModel.ts';
@@ -6,7 +8,7 @@ import { findUserById } from '../models/userModel.ts';
 const contactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Invalid email'),
-  phone: z.string().optional(),
+  phone: z.string().refine((val) => !val || isValidPhoneNumber(val), { message: 'Invalid phone number' }),
 });
 
 export const listContacts = (req: Request, res: Response) => {

@@ -25,7 +25,20 @@
     <form action="{{action}}" method="POST" class="space-y-4">
       <input type="text" name="name" placeholder="Name" value="{{contact.name}}" class="border p-2 w-full rounded" required>
       <input type="email" name="email" placeholder="Email" value="{{contact.email}}" class="border p-2 w-full rounded" required>
-      <input type="text" name="phone" placeholder="Phone" value="{{contact.phone}}" class="border p-2 w-full rounded">
+      <div class="flex gap-2">
+        <input type="text" id="phone" name="phone" placeholder="Phone (+1...) " value="{{contact.phone}}" class="border p-2 w-full rounded" oninput="showFlag(this.value)">
+        <div id="flag" class="text-2xl flex items-center"></div>
+      </div>
+      <script>
+        function showFlag(val) {
+          const flagDiv = document.getElementById('flag');
+          if (val.startsWith('+')) {
+            flagDiv.innerText = '🌐'; 
+          } else {
+            flagDiv.innerText = '';
+          }
+        }
+      </script>
       <button type="submit" class="bg-indigo-600 text-white p-2 w-full rounded font-bold">Save</button>
     </form>
     {{#if error}}<p class="text-red-500 mt-2">{{error}}</p>{{/if}}

@@ -3,8 +3,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-br from-purple-600 to-indigo-900 min-h-screen flex flex-col items-center p-4">
-<header class="bg-white/90 backdrop-blur-md shadow-lg sticky top-4 z-50 p-4 flex justify-between items-center rounded-2xl mx-auto max-w-sm mb-8 w-full">
+<body class="bg-gradient-to-br from-purple-600 to-indigo-900 min-h-screen p-8">
+<header class="bg-white/90 backdrop-blur-md shadow-lg sticky top-4 z-50 p-4 flex justify-between items-center rounded-2xl mx-auto max-w-4xl mb-8">
   <div class="font-bold text-indigo-900 text-xl">Contact Agent</div>
   <div class="relative">
     <details class="cursor-pointer">
@@ -13,14 +13,14 @@
          <span class="font-medium text-gray-700">{{user.username}}</span>
       </summary>
       <div class="absolute right-0 mt-2 bg-white rounded-xl shadow-xl p-2 w-32 z-10 border border-gray-100">
-        <form action="/users/logout" method="POST">
+        <form action="/users/logout" method="POST" class="mb-0">
           <button type="submit" class="text-red-500 w-full text-left p-2 hover:bg-red-50 rounded">Logout</button>
         </form>
       </div>
     </details>
   </div>
 </header>
-  <div class="bg-white p-8 rounded-xl shadow-2xl text-gray-900 w-full max-w-sm">
+  <div class="bg-white p-8 rounded-xl shadow-2xl text-gray-900 w-full max-w-sm mx-auto">
     <h1 class="text-2xl font-bold mb-4">{{title}}</h1>
     <form action="{{action}}" method="POST" class="space-y-4">
       <input type="text" name="name" placeholder="Name" value="{{contact.name}}" class="border p-2 w-full rounded" required>

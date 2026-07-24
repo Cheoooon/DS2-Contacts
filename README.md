@@ -51,3 +51,12 @@ index.ts
 pnpm install
 node index.ts
 ```
+
+## Ejecución y Pruebas
+Para ejecutar el proyecto, asegúrate de tener instaladas las dependencias con `pnpm install` y luego inicia el servidor con `pnpm run dev`.
+
+### Pruebas
+Se han incluido scripts de prueba mediante `curl` para validar los endpoints de registro, login y la gestión de contactos.
+
+## Flujo de trabajo Git
+Se ha establecido una política de commits siguiendo convenciones semánticas (ej: `feat(scope): ...`, `fix(scope): ...`, `chore: ...`). Antes de finalizar cualquier tarea, se debe ejecutar `git add .`, `git commit -m "..."` y `git push` para mantener el repositorio remoto sincronizado.

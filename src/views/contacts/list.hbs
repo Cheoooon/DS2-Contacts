@@ -1,0 +1,54 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-purple-600 to-indigo-900 min-h-screen p-8 text-white">
+<header class="bg-white/90 backdrop-blur-md shadow-lg sticky top-4 z-50 p-4 flex justify-between items-center rounded-2xl mx-auto max-w-4xl mb-8">
+  <div class="font-bold text-indigo-900 text-xl">My Contacts</div>
+  <div class="relative">
+    <details class="cursor-pointer">
+      <summary class="flex items-center gap-3 list-none p-1 pr-3 rounded-full hover:bg-gray-100 transition">
+         <img src="https://ui-avatars.com/api/?name={{user.username}}" class="w-10 h-10 rounded-full border-2 border-indigo-100">
+         <span class="font-medium text-gray-700">{{user.username}}</span>
+      </summary>
+      <div class="absolute right-0 mt-2 bg-white rounded-xl shadow-xl p-2 w-32 z-10 border border-gray-100">
+        <form action="/users/logout" method="POST">
+          <button type="submit" class="text-red-500 w-full text-left p-2 hover:bg-red-50 rounded">Logout</button>
+        </form>
+      </div>
+    </details>
+  </div>
+</header>
+  <div class="bg-white p-8 rounded-xl shadow-2xl text-gray-900 max-w-4xl mx-auto">
+    <h1 class="text-3xl font-extrabold mb-6 text-indigo-900">Contacts</h1>
+    <a href="/contacts/add" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg mb-6 inline-block transition">Add Contact</a>
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="border-b border-gray-200 text-gray-500 uppercase text-xs tracking-wider">
+          <th class="py-3 px-4">Name</th><th class="py-3 px-4">Email</th><th class="py-3 px-4">Phone</th><th class="py-3 px-4">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-800">
+        {{#each contacts}}
+        <tr class="hover:bg-gray-50 transition">
+          <td class="py-4 px-4 border-b border-gray-100 font-medium">{{name}}</td>
+          <td class="py-4 px-4 border-b border-gray-100">{{email}}</td>
+          <td class="py-4 px-4 border-b border-gray-100">{{phone}}</td>
+          <td class="py-4 px-4 border-b border-gray-100 flex gap-4">
+            <a href="/contacts/edit/{{id}}" class="text-indigo-600 hover:text-indigo-800 font-semibold" aria-label="Edit contact {{name}}">Edit</a>
+            <form action="/contacts/delete/{{id}}" method="POST" class="inline">
+              <button type="submit" class="text-red-500 hover:text-red-700 font-semibold" aria-label="Delete contact {{name}}">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {{else}}
+        <tr>
+          <td colspan="4" class="py-8 text-center text-gray-500">No contacts found. Add your first contact!</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    <form action="/users/logout" method="POST" class="mt-8"><button class="text-red-500 underline">Logout</button></form>
+  </div>
+</body>

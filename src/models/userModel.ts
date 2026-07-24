@@ -15,3 +15,8 @@ export const findUserByUsername = (username: string): User | undefined => {
   const query = db.prepare('SELECT * FROM users WHERE username = ?');
   return query.get(username) as User | undefined;
 };
+
+export const findUserById = (id: number): User | undefined => {
+  const query = db.prepare('SELECT * FROM users WHERE id = ?');
+  return query.get(id) as User | undefined;
+};

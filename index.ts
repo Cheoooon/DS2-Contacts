@@ -7,6 +7,7 @@ import express from 'express';
 import { isAuthenticated } from './src/middlewares/authMiddleware.ts';
 import hbs from 'hbs';
 import userRoutes from './src/routes/userRoutes.ts';
+import contactRoutes from './src/routes/contactRoutes.ts';
 
 const app = express();
 const port = 3000;
@@ -29,10 +30,10 @@ app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'src', 'views'));
 app.use('/users', userRoutes);
+app.use('/contacts', contactRoutes);
 app.get('/', isAuthenticated, (req, res) => {
-  res.send('Hola mundo');
+  res.redirect('/contacts');
 });
-
 app.listen(port, () => {
 console.log('Logging test');
   console.log(`Server running on port ${port}`);

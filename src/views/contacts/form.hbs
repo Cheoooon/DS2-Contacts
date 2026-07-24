@@ -2,6 +2,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/libphonenumber-js@1.11.0/bundle/libphonenumber-js.min.js"></script>
 </head>
 <body class="bg-gradient-to-br from-purple-600 to-indigo-900 min-h-screen p-8">
 <header class="bg-white/90 backdrop-blur-md shadow-lg sticky top-4 z-50 p-4 flex justify-between items-center rounded-2xl mx-auto max-w-4xl mb-8">
@@ -26,18 +27,26 @@
       <input type="text" name="name" placeholder="Name" value="{{contact.name}}" class="border p-2 w-full rounded" required>
       <input type="email" name="email" placeholder="Email" value="{{contact.email}}" class="border p-2 w-full rounded" required>
       <div class="flex gap-2">
-        <input type="text" id="phone" name="phone" placeholder="Phone (+1...) " value="{{contact.phone}}" class="border p-2 w-full rounded" oninput="showFlag(this.value)">
-        <div id="flag" class="text-2xl flex items-center"></div>
+        <input type="text" id="phone" name="phone" placeholder="Phone (+1...)" value="{{contact.phone}}" class="border p-2 w-full rounded" oninput="showFlag(this.value)">
+        <div id="flag" class="w-10 flex items-center justify-center"></div>
       </div>
       <script>
         function showFlag(val) {
           const flagDiv = document.getElementById('flag');
-          if (val.startsWith('+')) {
-            flagDiv.innerText = '🌐'; 
-          } else {
-            flagDiv.innerText = '';
+          try {
+            const phoneNumber = libphonenumber.parsePhoneNumberFromString(val);
+            if (phoneNumber && phoneNumber.country) {
+              const countryCode = phoneNumber.country.toLowerCase();
+              flagDiv.innerHTML = `<img src="https://flagcdn.com/w40/${countryCode}.png" alt="${phoneNumber.country}" class="w-8 h-6">`;
+            } else {
+              flagDiv.innerHTML = '';
+            }
+          } catch (e) {
+            flagDiv.innerHTML = '';
           }
         }
+        // Run on load in case of edit
+        document.addEventListener('DOMContentLoaded', () => showFlag(document.getElementById('phone').value));
       </script>
       <button type="submit" class="bg-indigo-600 text-white p-2 w-full rounded font-bold">Save</button>
     </form>

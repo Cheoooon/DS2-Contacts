@@ -26,7 +26,6 @@ app.use(session({
 }));
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'src', 'views'));
 app.use('/users', userRoutes);

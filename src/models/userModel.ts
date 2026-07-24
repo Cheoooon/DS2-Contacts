@@ -9,9 +9,6 @@ export interface User {
 export const createUser = (user: User) => {
   const insert = db.prepare('INSERT INTO users (username, password) VALUES (?, ?)');
   return insert.run(user.username, user.password);
-export const findUserByUsername = (username: string): User | undefined => {
-  const query = db.prepare('SELECT * FROM users WHERE username = ?');
-  return query.get(username) as User | undefined;
 };
 
 export const findUserByUsername = (username: string): User | undefined => {

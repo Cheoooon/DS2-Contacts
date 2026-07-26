@@ -18,7 +18,7 @@ export const register = async (req: Request, res: Response) => {
   const hashedPassword = await bcrypt.hash(password, 10);
   try {
     createUser({ username, password: hashedPassword });
-    res.redirect('/users/login');
+    res.redirect('/users/login?success=true');
   } catch (error) {
     res.render('register', { error: 'Username already taken' });
   }
